@@ -3,7 +3,10 @@ module BusinessTime
   class BusinessHours
     include Comparable
     attr_reader :hours
-    
+
+    var_type :@hours, '%integer'
+
+    type '(%integer h) -> self s {{ @hours == h }}', verify: :later
     def initialize(hours)
       @hours = hours
     end
@@ -34,6 +37,7 @@ module BusinessTime
 
     private
 
+    type '() -> %bool b {{ if b then @hours >= 0 end }}', verify: :later
     def non_negative_hours?
       @hours >= 0
     end
